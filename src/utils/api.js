@@ -10,6 +10,8 @@ const handleOriginalResponse = (res) => {
 }
 
 export const getLocation = (data) => {
+  console.log('getLocation-data');
+  console.log(data);
   return fetch(`${geoApiURL}?q=${data}&limit=${citySearchResponseLimit}&appid=${apiKey}`, {
     method: 'GET',
   })
