@@ -26,9 +26,9 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue';
-import * as api from './utils/api';
+<script lnag="ts">
+import Vue from 'vue'
+import * as api from './utils/api'
 import AppWeather from './components/weather.vue'
 import AppSettings from './components/settings.vue'
 import AppError from './components/error.vue'
@@ -44,7 +44,7 @@ export default Vue.extend({
       weather: [],
       weatherListKey: 1,
       errorMessage: null,
-    };
+    }
   },
   components: {
     AppSettings,
@@ -53,118 +53,118 @@ export default Vue.extend({
   },
   mounted() {
       try {
-        const localCities = JSON.parse(localStorage.getItem('cities'));
+        const localCities: Array = JSON.parse(localStorage.getItem('cities'))
         if (localCities !== null) {
-          this.cities = localCities;
+          this.cities = localCities
         }
         if (this.cities && this.cities.length > 0) {
-          this.updateWeather(this.cities);
+          this.updateWeather(this.cities)
         } else {
-          this.runWithoutSavedLocations();
+          this.runWithoutSavedLocations()
         }
       } catch(e) {
-        console.error(e);
-        localStorage.removeItem('cities');
+        console.error(e)
+        localStorage.removeItem('cities')
       }
   },
   watch : {
     citiesLength: (val) => {
       if (!val) {
-        runWithoutSavedLocations();
+        this.runWithoutSavedLocations();
       }
     }
   },
   methods: {
-    runWithoutSavedLocations () {
-      if ("geolocation" in navigator) {
-        this.getCurrentLocation();
+    runWithoutSavedLocations (): void {
+      if ('geolocation' in navigator) {
+        this.getCurrentLocation()
       } else {
         this.errorMessage = "Cann't get your geolocation. Try to add your city manual."
       }
     },
-    getCurrentLocation () {
+    getCurrentLocation (): void {
       navigator.geolocation.getCurrentPosition(
         this.getWeatherForCurrentPosition,
         this.onGetLocationError,
         geoSettings
       )
     },
-    onGetLocationError (error) {
-      console.error(error);
-      this.errorMessage = error.message + ' Try to add your city manual.';
-      console.log(this.errorMessage);
+    onGetLocationError (error): void {
+      console.error(error)
+      this.errorMessage = error.message + ' Try to add your city manual.'
+      console.log(this.errorMessage)
     },
-    async getWeatherForCurrentPosition (position) {
-      
-      console.log('coooooorddsss');
-      console.log(position.coords);
-      const coord = { lat: position.coords.latitude, lon: position.coords.longitude }
+    async getWeatherForCurrentPosition (position): void { // Добавить тип позишн
+
+      console.log('coooooorddsss')
+      console.log(position.coords)
+      const coord: { lat: number, lon: number } = { lat: position.coords.latitude, lon: position.coords.longitude }
       this.getWeather(coord)
         .then((res) => {
-          this.weather.push(res);
+          this.weather.push(res)
         })
         .catch((err) => {
-          console.error(err.mesage);
+          console.error(err.mesage)
         })
     },
-    async updateWeather (cities) {
+    async updateWeather (cities: Array<object>): void {
       this.weather = []
-      cities.forEach((city, index) => {
+      cities.forEach((city: string, index: number) => {
           this.getWeather(city)
             .then((res) => {
-              res.sort = index;
+              res.sort = index
               this.weather.push(res)
             })
-            .catch((err) => console.log(err));
-      });
-      this.weather.sort((a, b) => a.sort - b.sort);
+            .catch((err) => console.log(err))
+      })
+      this.weather.sort((a, b) => a.sort - b.sort)
     },
-    crearHints () {
-      this.response = [];
+    crearHints (): void {
+      this.response = []
     },
-    getWeather (coord) {
+    getWeather (coord): Promise {
       return  api.getCityWeather(coord)
         .then((res) => { return res })
     },
-    async search(coord) {
+    async search(coord): void {
       api.getLocation(coord)
-        .then((res) => { console.log(res); this.response = res; })
-        .catch((err) => { console.error(err); });
+        .then((res) => { console.log(res); this.response = res })
+        .catch((err) => { console.error(err) })
     },
-    toggleShowSettings () {
+    toggleShowSettings (): void {
       this.showSettings = !this.showSettings
     },
-    saveCities() {
-      const parsedCities = JSON.stringify(this.cities);
-      localStorage.setItem('cities', parsedCities);
+    saveCities(): void {
+      const parsedCities: string = JSON.stringify(this.cities)
+      localStorage.setItem('cities', parsedCities)
     },
-    addLocation(city) {
-      this.cities.push(city);
-      this.response = [];
-      this.saveCities();
-      this.updateWeather(this.cities);
+    addLocation(city: object): void {
+      this.cities.push(city)
+      this.response = []
+      this.saveCities()
+      this.updateWeather(this.cities)
     },
-    updateCities(cities) {
-      this.cities = cities;
-      this.saveCities();
-      this.updateWeather(this.cities);
-      this.weatherListKey++;
+    updateCities(cities: Array<object>): void {
+      this.cities = cities
+      this.saveCities()
+      this.updateWeather(this.cities)
+      this.weatherListKey++
     },
-    removeCity(index) {
-      this.cities.splice(index, 1);
-      this.weather.splice(index, 1);
-      this.saveCities();
+    removeCity(index: number): void {
+      this.cities.splice(index, 1)
+      this.weather.splice(index, 1)
+      this.saveCities()
     }
   },
   computed: {
-    responseNames() {
+    responseNames(): Array<string> {
       return this.response.map(item => item.name)
     },
-    citiesLength() {
+    citiesLength(): number {
       return this.cities.length
     }
   },
-});
+})
 </script>
 
 <style scopped>

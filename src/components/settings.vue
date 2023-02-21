@@ -60,13 +60,13 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue';
+<script lang="ts">
+import Vue from 'vue'
 import draggable from 'vuedraggable'
 
 export default Vue.extend({
   name: 'AppSettings',
-  display: "Transitions",
+  display: 'Transitions',
   props: {
     // weather: {
     //   type: Array,
@@ -83,40 +83,40 @@ export default Vue.extend({
   },
   data() {
     return {
-      city: '',
-      drag: false,
-    };
+      city: '' as string,
+      drag: false as boolean,
+    }
   },
   components: {
     draggable
   },
   methods: {
-    dragStart() {
-      this.drag = true;
+    dragStart(): void {
+      this.drag = true
     },
-    dragStop(cities) {
-      this.drag = false;
-      this.$emit('updateCities', cities);
+    dragStop(cities: string): void {
+      this.drag = false
+      this.$emit('updateCities', cities)
     },
-    onChange() {
-      this.$emit('search', this.city);
+    onChange(): void {
+      this.$emit('search', this.city)
     },
-    addLocation(city) {
-      this.$emit('addLocation', city);
-      this.city = '';
+    addLocation(city: string): void {
+      this.$emit('addLocation', city)
+      this.city = ''
     },
-    removeCity(index) {
-      this.$emit('removeCity', index);
+    removeCity(index: number): void {
+      this.$emit('removeCity', index)
     },
-    crearHints() {
+    crearHints(): void {
       setTimeout(
         () => {
-          this.$emit('crearHints');
-          this.city = '';
+          this.$emit('crearHints')
+          this.city = ''
         }, 30
       )
     },
-    getCountry (obj) {
+    getCountry (obj: object): string {
       return obj?.country || ''
     },
     getName (obj) {
@@ -130,10 +130,10 @@ export default Vue.extend({
         group: "description",
         disabled: false,
         ghostClass: "ghost"
-      };
+      }
     },
   },
-});
+})
 </script>
 
 <style scopped>
