@@ -1,5 +1,5 @@
 import { watherApiURl, geoApiURL, citySearchResponseLimit } from '@/constants/constants'
-import {getCityWeatherData} from './interfaces'
+import {getCityWeatherData} from '@/types/index'
 
 const apiKey: string = process.env.VUE_APP_API_KEY
 

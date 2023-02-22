@@ -68,10 +68,6 @@ export default Vue.extend({
   name: 'AppSettings',
   display: 'Transitions',
   props: {
-    // weather: {
-    //   type: Array,
-    //   require: true,
-    // },
     cities: {
       type: Array,
       require: true,
@@ -127,9 +123,9 @@ export default Vue.extend({
     dragOptions() {
       return {
         animation: 200,
-        group: "description",
+        group: 'description',
         disabled: false,
-        ghostClass: "ghost"
+        ghostClass: 'ghost'
       }
     },
   },

@@ -27,8 +27,8 @@
   </div>
 </template>
 
-<script>
-import Vue from 'vue';
+<script lang="ts">
+import Vue from 'vue'
 
 export default Vue.extend({
   name: 'AppSettings',
@@ -47,31 +47,31 @@ export default Vue.extend({
     }
   },
   methods: {
-    getName (obj) {
-      console.log('name');
-      console.log(obj);
+    getName (obj): string {
+      console.log('name')
+      console.log(obj)
       return obj?.name || ''
     },
     getCountry (obj) {
       return obj?.sys?.country || ''
     },
     getTemp (obj) {
-      return Math.round(obj.main?.temp) || 0;
+      return Math.round(obj.main?.temp) || 0
     },
     getFeel (obj) {
-      return Math.round(obj.main?.feels_like) || 0;
+      return Math.round(obj.main?.feels_like) || 0
     },
     getWindSpeed (obj) {
-      return obj?.wind?.speed || 0;
+      return obj?.wind?.speed || 0
     },
     getWindDeg (obj) {
-      return obj?.wind?.deg || 0;
+      return obj?.wind?.deg || 0
     },
     getWindGust (obj) {
-      return obj?.wind?.gust || 0;
+      return obj?.wind?.gust || 0
     },
     getImg (obj) {
-      const iconName = obj.weather?.[0].icon || 0;
+      const iconName = obj.weather?.[0].icon || 0
       return `http://openweathermap.org/img/wn/${iconName}@2x.png`
     },
     getVisibility (obj) {
@@ -90,8 +90,8 @@ export default Vue.extend({
       return obj?.main?.pressure || 0
     },
     getDewPoint (obj) {
-      const t = this.getTemp (obj);
-      const Rh = this.getHumidity(obj);
+      const t = this.getTemp (obj)
+      const Rh = this.getHumidity(obj)
       const a = 17.27;
       const b = 237.7;
       const f = () => {
